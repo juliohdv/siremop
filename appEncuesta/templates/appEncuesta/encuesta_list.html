@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Lista de Encuestas</title>
+</head>
+<body>
+	<h3>Lista de enuestas</h3>
+	<br>
+	{% for encuestas in encuestas %}
+	<div>
+		<p>idEncuesta: {{ encuestas.idEncuesta }}</p>
+	</div>
+	<br>
+	<div>
+		<p>cantidadPreguntas: {{ encuestas.cantidadPreguntas }}</p>
+	</div>
+	
+	{% endfor %}
+</body>
+</html>
