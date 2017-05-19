@@ -1,0 +1,45 @@
+{% extends 'appEncuesta/base.html' %}
+{% load staticfiles %}
+{% block content %}
+    <div class="ym-wrapper">
+      <div class="ym-wbox">
+        <h2>Resultados de las preguntas</h2>
+        <p>Selecciona una pregunta para visualizar su gráfico.</p>
+        <br>
+        <div class="ym-grid">
+          <div class="ym-g60 ym-gl">
+                  <table>
+                <tr>
+                  <td>N°</td>
+                  <td>ARENA</td>
+                  <td>FMLN</td>
+                  <td>GANA</td>
+                </tr>
+                <tr>
+                  <td>Pregunta 1</td>
+                  <td>%1</td>
+                  <td>%2 3</td>
+                  <td>%3</td>
+                </tr>
+                <tr>
+                  <td>Pregunta 2</td>
+                  <td>%1</td>
+                  <td>%2 3</td>
+                  <td>%3</td>
+                </tr>
+                <tr>
+                  <td>Pregunta 3</td>
+                  <td>%1</td>
+                  <td>%2 3</td>
+                  <td>%3</td>
+                </tr>
+              </table>
+          </div>
+          <div class="ym-g40 ym-gl">
+            <input type="text" value="dd/mm/AAAA">
+          </div>
+        </div>
+        <a href="/encuesta/home/" class="ym-button">Salir</a>
+      </div>
+    </div>
+{% endblock content %}

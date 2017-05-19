@@ -1,0 +1,25 @@
+{% extends 'appEncuesta/base.html' %}
+{% load staticfiles %}
+{% block content %}
+    <div class="ym-wrapper">
+      <div class="ym-wbox">
+            <div class="ym-grid">
+      			<div class="ym-g60 ym-gl">
+			        <div class="ym-gbox">
+			          <!-- content -->
+       			        <img src="{% static 'img/opinas.jpg' %}" alt="Opinion">
+       			        <h3>Preferencias de partidos políticos.</h3>
+       			        <form id="form1">{% csrf_token %}
+       			        	<a href="/encuesta/iniciarEncuesta/" class="ym-button">Iniciar Encuesta</a>
+       			        </form>
+			        </div>
+      			</div>
+			     <div class="ym-g40 ym-gr">
+			        <div class="ym-gbox">
+                  <a href="/encuesta/administrarEncuesta/" class="ym-button">Administrador</a>
+			        </div>
+			     </div>
+   			</div>
+      </div>
+    </div>
+{% endblock content %}

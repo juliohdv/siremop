@@ -1,0 +1,61 @@
+{% extends 'appEncuesta/base.html' %}
+{% load staticfiles %}
+{% block content %}
+<script type="text/javascript">
+</script>
+    <div class="ym-wrapper">
+      <div class="ym-wbox">
+        <h2>Administrar Encuesta</h2>
+        <p id="seleccionar">Seleccione la encuesta a administrar:</p>
+        <select name="encuestas" id="encuestas">
+          {% for encuestas in encuestas %}
+            <option value="{{ encuestas.idEncuesta }}"> {{ encuestas.nombreEncuesta }}</option>
+          {% endfor %}
+        </select>
+        <br>
+        <br>
+        <div class="container">
+          <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#home">Agregar Pregunta</a></li>
+            <li><a data-toggle="tab" href="#menu1">Editar Pregunta</a></li>
+            <li><a data-toggle="tab" href="#menu2">Eliminar Pregunta</a></li>
+          </ul>
+
+          <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+              <h3>Ingrese una nueva pregunta</h3>
+              <form action="" method="post" class="ym-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Guardar</button>
+
+              </form>
+            </div>
+            <div id="menu1" class="tab-pane fade">
+              <h3>Seleccione una pregunta</h3>
+              <table>
+                <tr>
+                  <td>ID</td>
+                  <td>Nombre</td>
+                  <td>Cant. Respuestas</td>
+                  <td>Encuesta</td>
+                </tr>
+                {% for preguntas in preguntas %}
+                  <tr class="clickable-row" onclick="return popitup('/encuesta/editarPregunta/{{ preguntas.idPregunta }}')">
+                    <td>{{ preguntas.idPregunta }}</td>
+                    <td>{{ preguntas.nombrePregunta }}</td>
+                    <td>{{ preguntas.cantidadRespuestas }}</td>
+                    <td>{{ preguntas.idEncuesta }}</td>
+                  </tr>
+                {% endfor %}
+              </table>
+            </div>
+            <div id="menu2" class="tab-pane fade">
+              <h3>Seleccione una pregunta</h3>
+              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}

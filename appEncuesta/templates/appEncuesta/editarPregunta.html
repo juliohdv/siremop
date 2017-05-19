@@ -1,0 +1,14 @@
+{% extends 'appEncuesta/pop.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="ym-wrapper">
+    <div class="ym-wbox">
+		<form action="" method="post" class="ym-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+         <button type="submit">Guardar</button>
+    </form>
+    </div>
+</div>
+	
+{% endblock content %}

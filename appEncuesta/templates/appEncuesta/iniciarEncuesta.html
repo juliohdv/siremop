@@ -1,0 +1,42 @@
+{% extends 'appEncuesta/base.html' %}
+{% load staticfiles %}
+{% block content %}
+    <div class="ym-wrapper">
+      <div class="ym-wbox">
+            <h2>Iniciar Encuesta</h2>
+            <br><p>Responda las siguientes preguntas de la manera mas sincera, seleccionando una respuesta para cada pregunta.</p>
+            <br>
+            <form action="">
+            	<table>
+            		<tr>
+            			<td>
+            			1. ¿Pregunta1?
+            			<br>
+            				<input type="radio" name="r1" value="Respuesta1">Respuesta1<br>
+  							<input type="radio" name="r1" value="Respuesta2">Respuesta2<br>
+  							<input type="radio" name="r1" value="Respuesta3">Respuesta3
+  						</td>
+            		</tr>
+            		<tr>
+            			<td>
+            			2. ¿Pregunta2?
+            			<br>
+            				<input type="radio" name="r1" value="Respuesta1">Respuesta1<br>
+  							<input type="radio" name="r1" value="Respuesta2">Respuesta2<br>
+  							<input type="radio" name="r1" value="Respuesta3">Respuesta3
+  						</td>
+            		</tr><tr>
+            			<td>
+            			3. ¿Pregunta3?
+            			<br>
+            				<input type="radio" name="r1" value="Respuesta1">Respuesta1<br>
+  							<input type="radio" name="r1" value="Respuesta2">Respuesta2<br>
+  							<input type="radio" name="r1" value="Respuesta3">Respuesta3
+  						</td>
+            		</tr>
+            	</table>
+            	<a href="/encuesta/resultadosEncuesta/" class="ym-button">Terminar</a>
+            </form>
+      </div>
+    </div>
+{% endblock content %}
