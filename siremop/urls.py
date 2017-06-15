@@ -16,9 +16,12 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
+from django.contrib.auth.views import login, logout_then_login
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('appEncuesta.urls')),
-    url(r'^encuesta/', include('appEncuesta.urls')),
+    url(r'^encuesta/', include('appEncuesta.urls',namespace='encuesta')),
+    url(r'^login/$',login, {'template_name':'acceso.html'}, name='acceso'),
+    url(r'^logout/$',logout_then_login, name='salir'),
 ]

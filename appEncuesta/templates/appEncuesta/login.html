@@ -8,15 +8,14 @@
 			        <div class="ym-gbox">
 			          <!-- content -->
        			        <img src="{% static 'img/opinas.jpg' %}" alt="Opinion">
-       			        <h3>Preferencias de partidos políticos.</h3>
-       			        <form id="form1">{% csrf_token %}
-       			        	<a href="/encuesta/iniciarEncuesta/" class="ym-button">Iniciar Encuesta</a>
-       			        </form>
+       			        <h3>Inicio de Sesión</h3>
 			        </div>
       			</div>
 			     <div class="ym-g40 ym-gr">
 			        <div class="ym-gbox">
-                  <a href="{% url 'acceso' %}" class="ym-button">Administrador</a>
+                  <form id="form">{% csrf_token %}
+                       {{ form.as_p }}
+                    </form>
 			        </div>
 			     </div>
    			</div>

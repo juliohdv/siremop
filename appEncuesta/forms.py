@@ -39,3 +39,17 @@ class EditarPreguntaForm(forms.ModelForm):
 			'cantidadRespuestas' : forms.TextInput(),
 			'idEncuesta' : forms.Select(),
 		}
+
+class LoginForm(forms.Form):
+		fields = [
+		'nombre_usuario',
+		'contrasenia',
+		]
+		labels={
+		'nombre_usuario' : 'Usuario',
+		'contrasenia' : 'Contraseña'
+		}
+		widget={
+		'nombre_usuario' : forms.TextInput(),
+		'contrasenia' : forms.PasswordInput(),
+		}

@@ -28,3 +28,11 @@ class Respuesta(models.Model):
 
 	def __str__(self):
 		return '{}'.format(self.nombreRespuesta)
+
+class Administrador(models.Model):
+	idAdministrador = models.AutoField(primary_key=True)
+	usuario = models.CharField(max_length=25)
+	contrasenia = models.CharField(max_length=25)
+
+	def __str__(self):
+		return '{}'.format(self.usuario)

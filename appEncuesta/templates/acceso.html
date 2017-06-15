@@ -1,0 +1,35 @@
+{% load staticfiles %}
+{% block content %}
+    <div class="ym-wrapper">
+      <div class="ym-wbox">
+            <div class="ym-grid">
+      			<div class="ym-g60 ym-gl">
+			        <div class="ym-gbox">
+			          <!-- content -->
+       			        <img src="{% static 'img/opinas.jpg' %}" alt="Opinion">
+       			        <h3>Inicio de Sesión</h3>
+			        </div>
+      			</div>
+			     <div class="ym-g40 ym-gr">
+			        <div class="ym-gbox">
+                  <form id="form" method="post">{% csrf_token %}
+                       <table>
+                         <tr>
+                           <td><label>Usuario:</label></td>
+                           <td><input type="text" name="username"></td>
+                         </tr>
+                         <tr>
+                           <td><label>Contraseña:</label></td>
+                           <td><input type="password" name="password"></td>
+                         </tr>
+                         <tr>
+                           <td><input type="submit" name="enviar" value="Ingresar"></td>
+                         </tr>
+                       </table>
+                    </form>
+			        </div>
+			     </div>
+   			</div>
+      </div>
+    </div>
+{% endblock content %}

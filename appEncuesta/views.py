@@ -2,13 +2,13 @@ from django.shortcuts import render, redirect
 from .models import Encuesta, Pregunta
 from django.http import HttpResponse
 from django.shortcuts import get_list_or_404, get_object_or_404
-from .forms import PreguntaForm, EditarPreguntaForm
+from .forms import PreguntaForm, EditarPreguntaForm, LoginForm
+from django.contrib.auth import authenticate,login
 # Create your views here.
 
 
 def index(request):
 	return render(request, 'appEncuesta/index.html')
-
 def encuesta_list(request):
 	encuestas = Encuesta.objects.filter()
 	return render(request, 'appEncuesta/encuesta_list.html', {'encuestas' : encuestas})
@@ -26,7 +26,7 @@ def administrarEncuesta(request):
 			form = PreguntaForm(request.POST)
 			if form.is_valid():
 				form.save()
-			return redirect('home')
+			return redirect('administrar')
 		else:
 			form = PreguntaForm()
 		return render(request, 'appEncuesta/administrarEncuesta.html', {'form':form, 'encuestas' : encuestas, 'preguntas' : preguntas})
