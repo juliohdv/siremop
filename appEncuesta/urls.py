@@ -9,6 +9,6 @@ urlpatterns = [
 	url(r'^iniciarEncuesta/$', views.iniciarEncuesta, name='iniciar'),
 	url(r'^resultadosEncuesta/$', views.resultadosEncuesta, name='resultados'),
 	url(r'^administrarEncuesta/$', login_required(views.administrarEncuesta), name='administrar'),
-	url(r'^editarPregunta/(?P<idPregunta>\d+)/$', views.editarPregunta, name='editarPregunta'),
+	url(r'^editarPregunta/(?P<idPregunta>\d+)/$', login_required(views.editarPregunta), name='editarPregunta'),
 	
 ]

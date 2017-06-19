@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import Encuesta, Pregunta
-from django.http import HttpResponse
-from django.shortcuts import get_list_or_404, get_object_or_404
+from .models import Encuesta, Pregunta, Respuesta
+from django.http import HttpResponse, JsonResponse
 from .forms import PreguntaForm, EditarPreguntaForm, LoginForm
-from django.contrib.auth import authenticate,login
+
+
 # Create your views here.
 
 
@@ -21,12 +21,22 @@ def resultadosEncuesta(request):
 
 def administrarEncuesta(request):
 		encuestas = Encuesta.objects.filter()
-		preguntas = Pregunta.objects.filter(idEncuesta=1).order_by('idPregunta');
-		if request.method == 'POST':
-			form = PreguntaForm(request.POST)
-			if form.is_valid():
-				form.save()
-			return redirect('administrar')
+		preguntas = Pregunta.objects.filter(idEncuesta=1).order_by('idPregunta')
+		if request.method == 'POST' and request.POST.get('sbmName', False) == 'sbmGuardarPregunta':
+			Pregunta.objects.create(
+					nombrePregunta = request.POST['nombrePregunta'],
+					idEncuesta = Encuesta.objects.get(idEncuesta=request.POST['idEncuesta'])
+				)
+			return HttpResponse('Pregunta guardada con éxito')
+		elif request.method == 'POST' and request.POST.get('sbmName2', False) == 'sbmGuardarRespuesta':
+			preguntaActual = Pregunta.objects.last()
+			for i in range(0,int(request.POST.get('cantidadRespuestas',False))):
+				Respuesta.objects.create(
+						tipoRespuesta = request.POST['tipoRespuesta'],
+						nombreRespuesta = request.POST['nombreRespuesta'+str(i)],
+						idPregunta = preguntaActual
+					)
+			return HttpResponse('Respuesta guardada con éxito')
 		else:
 			form = PreguntaForm()
 		return render(request, 'appEncuesta/administrarEncuesta.html', {'form':form, 'encuestas' : encuestas, 'preguntas' : preguntas})

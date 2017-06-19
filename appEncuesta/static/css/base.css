@@ -703,3 +703,8 @@
     display: none !important;
   }
 }
+
+.oculto{
+  display: none;
+}
+

@@ -23,13 +23,60 @@
 
           <div class="tab-content">
             <div id="home" class="tab-pane fade in active">
-              <h3>Ingrese una nueva pregunta</h3>
-              <form action="" method="post" class="ym-form">
+              <h3>Ingrese una nueva pregunta:</h3>
+              <form action="" method="post" class="ym-form" id="guardarPreguntaForm">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit">Guardar</button>
-
+                <input type="hidden" name="sbmName" value="sbmGuardarPregunta">
+                <button id="sbmGuardarPregunta">Guardar</button>
               </form>
+              <div id="mensajeResultado">Mensaje:</div>
+              <div class="container oculto" id="contenedorTipoRespuesta">
+                <h3>Seleccione el tipo de respuesta para la pregunta:</h3>
+                <ul class="nav nav-tabs">
+                  <li><a data-toggle="tab" href="#home2">Falso / Verdadero</a></li>
+                  <li><a data-toggle="tab" href="#menu3">Opción Múltiple</a></li>
+                  <li><a data-toggle="tab" href="#menu4">Opción Única</a></li>
+                </ul>
+                <div class="tab-content">
+                  <div id="home2" class="tab-pane fade">
+                    <h3>Falso Verdadero</h3>
+                      <form class="ym-form" action="" method="post" id="formFalsoVerdadero">
+                      {% csrf_token %}
+                        <input type="radio" name="nombreRespuesta0" value="Verdadero/Falso"> Verdadero<br>
+                        <input type="radio" name="nombreRespuesta0" value="Verdadero/Falso"> Falso<br>  
+                        <input type="hidden" name="tipoRespuesta" value="0">
+                        <input type="hidden" name="cantidadRespuestas" value="1">
+                        <input type="hidden" name="sbmName2" value="sbmGuardarRespuesta">
+                        <button id="sbmGuardarRespuesta">Guardar</button>
+                      </form>
+                      <div id="mensajeResultado2">Mensaje:</div>
+                  </div>
+                  <div id="menu3" class="tab-pane fade">
+                    <h3>Opción Múltiple</h3>
+                      <form class="ym-form" action="" method="post" id="formOpcionMultiple">
+                      {% csrf_token %}
+                        <p>Ingrese el número de opciones:</p>
+                        <div class="ym-grid">
+                          <div class="ym-grid ym-g25">
+                            <input type="text" name="numOpciones" id="numOpciones" value="">    
+                            <input type="button" name="generarOpciones" id="generarOpciones" value="Generar">
+                          </div>
+                          <div id="opciones" class="ym-grid ym15"></div>
+                        </div>
+                        <input type="hidden" name="sbmName2" value="sbmGuardarRespuesta">
+                        <input type="hidden" name="tipoRespuesta" value="1">
+                      </form>
+                      <div id="mensajeResultado3">Mensaje:</div>
+                  </div>
+                  <div id="menu4" class="tab-pane fade">
+                    <h3>Opción Unica</h3>
+                      <form class="ym-form" method="post" id="formOpcionUnica">
+                          <input type="hidden" name="tipoRespuesta" value="2">
+                      </form>
+                  </div>
+                </div>
+              </div>
             </div>
             <div id="menu1" class="tab-pane fade">
               <h3>Seleccione una pregunta</h3>
@@ -37,14 +84,14 @@
                 <tr>
                   <td>ID</td>
                   <td>Nombre</td>
-                  <td>Cant. Respuestas</td>
+                  <td>Respuestas</td>
                   <td>Encuesta</td>
                 </tr>
                 {% for preguntas in preguntas %}
                   <tr class="clickable-row" onclick="return popitup('/encuesta/editarPregunta/{{ preguntas.idPregunta }}')">
                     <td>{{ preguntas.idPregunta }}</td>
                     <td>{{ preguntas.nombrePregunta }}</td>
-                    <td>{{ preguntas.cantidadRespuestas }}</td>
+                    <td></td>
                     <td>{{ preguntas.idEncuesta }}</td>
                   </tr>
                 {% endfor %}

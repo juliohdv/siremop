@@ -14,7 +14,6 @@ class Encuesta(models.Model):
 class Pregunta(models.Model):
 	idPregunta = models.AutoField(primary_key=True)
 	nombrePregunta = models.CharField(max_length=200)
-	cantidadRespuestas = models.IntegerField()
 	idEncuesta = models.ForeignKey(Encuesta, on_delete=models.CASCADE)
 
 	def __str__(self):
