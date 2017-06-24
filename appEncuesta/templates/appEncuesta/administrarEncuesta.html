@@ -23,13 +23,37 @@
 
           <div class="tab-content">
             <div id="home" class="tab-pane fade in active">
-              <h3>Ingrese una nueva pregunta</h3>
-              <form action="" method="post" class="ym-form">
+              <h3>Ingrese una nueva pregunta:</h3>
+              <form action="" method="post" class="ym-form" id="guardarPreguntaForm">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit">Guardar</button>
-
+                <input type="hidden" name="sbmName" value="sbmGuardarPregunta">
+                <button id="sbmGuardarPregunta">Guardar</button>
               </form>
+              <div id="mensajeResultado">Mensaje:</div>
+              <div class="container oculto" id="contenedorTipoRespuesta">
+                <ul class="nav nav-tabs">
+                  <li><a data-toggle="tab" href="#home2">Ingrese las opciones de respuesta para la pregunta:</a></li>
+                </ul>
+                <div class="tab-content">
+                  <div id="home2" class="tab-pane fade">
+                    <h3>Opción Múltiple</h3>
+                      <form class="ym-form" action="" method="post" id="formOpcionMultiple">
+                      {% csrf_token %}
+                        <p>Ingrese el número de opciones:</p>
+                        <div class="ym-grid">
+                          <div class="ym-grid ym-g25">
+                            <input type="text" name="numOpciones" id="numOpciones" value="">    
+                            <input type="button" name="generarOpciones" id="generarOpciones" value="Generar">
+                          </div>
+                          <div id="opciones" class="ym-grid ym15"></div>
+                        </div>
+                        <input type="hidden" name="sbmName2" value="sbmGuardarRespuesta">
+                      </form>
+                      <div id="mensajeResultado3">Mensaje:</div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div id="menu1" class="tab-pane fade">
               <h3>Seleccione una pregunta</h3>
@@ -37,14 +61,31 @@
                 <tr>
                   <td>ID</td>
                   <td>Nombre</td>
-                  <td>Cant. Respuestas</td>
+                  <td>Numero Pregunta</td>
+                  <td>Respuestas</td>
                   <td>Encuesta</td>
                 </tr>
                 {% for preguntas in preguntas %}
                   <tr class="clickable-row" onclick="return popitup('/encuesta/editarPregunta/{{ preguntas.idPregunta }}')">
                     <td>{{ preguntas.idPregunta }}</td>
                     <td>{{ preguntas.nombrePregunta }}</td>
-                    <td>{{ preguntas.cantidadRespuestas }}</td>
+                    <td>{{ preguntas.numeroPregunta }}</td>
+                    <td>
+                      <table>
+                      <tr>
+                        <td>Enunciado Respuesta</td>
+                        <td>Numero Respuesta</td>
+                      </tr>
+                      {% for respuesta in respuestas %}
+                        <tr>
+                        {% if preguntas.idPregunta == respuesta.idPregunta_id %}
+                          <td>{{ respuesta.nombreRespuesta }}</td>
+                          <td>{{ respuesta.numeroRespuesta }}</td>
+                        {% endif %}
+                        </tr>
+                      {% endfor %}
+                      </table>
+                    </td>
                     <td>{{ preguntas.idEncuesta }}</td>
                   </tr>
                 {% endfor %}

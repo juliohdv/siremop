@@ -1,8 +1,4 @@
-$(document).ready(function(){
-    $(".tabs").accessibleTabs({
-        fx:"fadeIn"
-    });
-});
+
 
 
 $(document).ready(function(){
@@ -16,3 +12,102 @@ function popitup(url) {
     if (window.focus) {newwindow.focus()}
     return false;
 }
+
+$(document).ready(function(){
+    $("#guardarPreguntaForm").submit(function(e){
+    	e.preventDefault();
+    	$.ajax({
+    		url: "",
+    		type: "POST",
+    		data: $("#guardarPreguntaForm").serialize(),
+    		success: function(data){
+    			$("#mensajeResultado").append(data);
+    			$("#guardarPreguntaForm").children().prop('disabled',true);
+    			$('#contenedorTipoRespuesta').removeClass('oculto');
+    		}
+    	});
+    });
+});
+
+$(document).ready(function(){
+    $("#formFalsoVerdadero").submit(function(e){
+    	e.preventDefault();
+    	$.ajax({
+    		url: "",
+    		type: "POST",
+    		data: $("#formFalsoVerdadero").serialize(),
+    		success: function(data){
+    			$("#mensajeResultado2").append(data);
+    			$("#formFalsoVerdadero").children().prop('disabled',true);
+    			$("#formOpcionMultiple").children().prop('disabled',true);
+    		}
+    	});
+    });
+});
+
+$(document).ready(function(){
+    $("#formOpcionMultiple").submit(function(e){
+    	e.preventDefault();
+    	$.ajax({
+    		url: "",
+    		type: "POST",
+    		data: $("#formOpcionMultiple").serialize(),
+    		success: function(data){
+    			$("#mensajeResultado3").append(data);
+    			$("#formOpcionMultiple").children().prop('disabled',true);
+    			$("#formFalsoVerdadero").children().prop('disabled',true);
+    		}
+    	});
+    });
+});
+
+$(document).ready(function(){
+    $("#generarOpciones").click(function(){
+    	$('#opciones').empty();
+    	var numOpciones = $('#numOpciones').val();
+    	for (var i = 0; i<numOpciones; i++) {
+     	  $('#opciones').append('Ingrese el valor de la respuesta número: '+(i+1)+'<br><input type="text" name="nombreRespuesta'+i+'"><br>');
+		}
+		$('#opciones').append('<input type="hidden" name="cantidadRespuestas" value="'+(i)+'"><br>');
+		$('#opciones').append('<button type="submit" id="sbmGuardarRespuestaOM">Guardar</button>');
+    });
+});
+
+$(document).ready(function(){
+    $("#select").click(function(e){
+        var strOU = $('#formInciarEncuestaOU').serialize();
+        var numeroRadios = $('input:radio:checked');
+        var numeroCheks = $('input:checkbox:checked');
+        strOU=strOU+'&numeroCheks='+numeroCheks.length+'&numeroRadios='+numeroRadios.length;
+        alert(strOU);
+        e.preventDefault();
+        $.ajax({
+            url: "",
+            type: "POST",
+            data: strOU,
+            success: function(data){
+                $("#resultadoEncuesta").append(data);
+            }
+        });
+    });
+});
+$( function() {
+    $( "#fechaResultados" ).datepicker({
+        dateFormat: 'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true,
+        onSelect: function(dateText){
+        var str = $("#formFecha").serialize();
+            $.ajax({
+                url: "",
+                type: "POST",
+                data: 'fechaFiltro='+dateText+'&'+str,
+                success: function(data){
+                    $("#detallesResultados").clear();
+                    $("#detallesResultados").append(data);
+                }
+            });
+        }
+    });
+});
+

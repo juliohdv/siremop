@@ -6,18 +6,18 @@ class PreguntaForm(forms.ModelForm):
 		model = Pregunta
 		fields = [
 			'nombrePregunta',
-			'cantidadRespuestas',
+			'numeroPregunta',
 			'idEncuesta',
 		]
 		labels = {
 			'nombrePregunta': 'Nombre',
-			'cantidadRespuestas': 'Cantidad de Respuestas',
+			'numeroPregunta':'Número de Pregunta',
 			'idEncuesta': 'ID de Encuesta',
 		}
 
 		widget = {
 			'nombrePregunta' : forms.TextInput(attrs={'class':''}),
-			'cantidadRespuestas' : forms.TextInput(),
+			'numeroPregunta': forms.NumberInput(),
 			'idEncuesta' : forms.Select(),
 		}
 
@@ -26,17 +26,14 @@ class EditarPreguntaForm(forms.ModelForm):
 		model = Pregunta
 		fields = [
 			'nombrePregunta',
-			'cantidadRespuestas',
 			'idEncuesta',
 		]
 		labels={
 			'nombrePregunta': 'Nombre',
-			'cantidadRespuestas': 'Cantidad de respuestas',
 			'idEncuesta': 'ID Encuesta',
 		}
 		widget={
 			'nombrePregunta' : forms.TextInput(attrs={'class':''}),
-			'cantidadRespuestas' : forms.TextInput(),
 			'idEncuesta' : forms.Select(),
 		}
 

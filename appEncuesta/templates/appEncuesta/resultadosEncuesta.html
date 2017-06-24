@@ -1,5 +1,6 @@
 {% extends 'appEncuesta/base.html' %}
 {% load staticfiles %}
+{% load googlecharts %}
 {% block content %}
     <div class="ym-wrapper">
       <div class="ym-wbox">
@@ -7,36 +8,97 @@
         <p>Selecciona una pregunta para visualizar su gráfico.</p>
         <br>
         <div class="ym-grid">
-          <div class="ym-g60 ym-gl">
-                  <table>
+          <div class="ym-g60 ym-gl" id="detalles resultados">
+            <table>
                 <tr>
+                  <td>Nombre</td>
                   <td>N°</td>
-                  <td>ARENA</td>
-                  <td>FMLN</td>
-                  <td>GANA</td>
+                  <td>Respuestas</td>
+                  <td>Encuesta</td>
                 </tr>
-                <tr>
-                  <td>Pregunta 1</td>
-                  <td>%1</td>
-                  <td>%2 3</td>
-                  <td>%3</td>
-                </tr>
-                <tr>
-                  <td>Pregunta 2</td>
-                  <td>%1</td>
-                  <td>%2 3</td>
-                  <td>%3</td>
-                </tr>
-                <tr>
-                  <td>Pregunta 3</td>
-                  <td>%1</td>
-                  <td>%2 3</td>
-                  <td>%3</td>
-                </tr>
+                {% for preguntas in preguntas %}
+                <form id="formPregunta{{preguntas.numeroPregunta}}">
+                  <tr class="clickable-row" onclick="">
+                    <td>{{ preguntas.nombrePregunta }}</td>
+                    <td>{{ preguntas.numeroPregunta }}</td>
+                    <td>
+                      <table>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td>Cant.Votos</td>
+                      </tr>
+                      {% for respuesta in respuestas %}
+                        <tr>
+                        {% if preguntas.idPregunta == respuesta.idPregunta_id %}
+                          <td>{{ respuesta.numeroRespuesta }}</td>
+                          <td id="resp{{respuesta.numeroRespuesta}}">{{ respuesta.nombreRespuesta }}</td>
+                          <input type="hidden" name="resp{{respuesta.numeroRespuesta}}" value="{{ respuesta.numeroRespuesta }}">
+                          <input type="hidden" name="nombre{{respuesta.numeroRespuesta}}" value="{{ respuesta.nombreRespuesta }}">
+                          <td>
+                            {% for detalles in detalles %}
+                              {% if detalles.idRespuesta_id == respuesta.idRespuesta %}
+                              <p id="conteo{{respuesta.numeroRespuesta}}">{{detalles.getConteo}}</p>
+                                <input type="hidden" name="conteo{{respuesta.numeroRespuesta}}" value="{{detalles.getConteo}}">
+                              {% endif %}
+                            {% endfor %}
+                          </td>
+                        {% endif %}
+                        </tr>
+                      {% endfor %}
+                      </table>
+                    </td>
+                    <td>{{ preguntas.idEncuesta }}</td>
+                    <td><button id="verGrafica{{preguntas.idPregunta}}">Ver Grafica</button></td>
+                  </tr>
+                  </form>
+                  <script type="text/javascript">
+                    $(document).ready(function(){
+                      $("#verGrafica{{preguntas.idPregunta}}").click(function(){
+                          var datos = $("#formPregunta{{preguntas.numeroPregunta}}").serialize();
+                          alert(datos);
+                          $.ajax({
+                            url: "",
+                            type: "POST",
+                            data: datos,
+                            success: function(data){
+
+                            }
+                          });
+                         /* $("#grafica").CanvasJSChart({
+                          title: {
+                              text: "Resultados:{{preguntas.nombrePregunta}}"
+                          },
+                          axisX: {
+                              interval: 10
+                          },
+                          data: [
+                              {
+                                  type: "pie", //try changing to column, area
+                                  showInLegend: true,
+                                  toolTipContent: "{name}: <strong>{y}%</strong>",
+                                  indexLabel: "{name} {y}%",
+                                  dataPoints: [
+                                      { y: $("#conteo1").text(), name: "Respuesta 1" },
+                                      { y: $("#conteo").text(), name: "Respuesta 2" },
+                                  ]
+                              }
+                              ]
+                          });*/
+                      });
+                  });
+                  </script>
+                {% endfor %}
               </table>
           </div>
           <div class="ym-g40 ym-gl">
-            <input type="text" value="dd/mm/AAAA">
+          <form id="formFecha">
+            {% csrf_token %}
+            <input type="text" value="dd/mm/AAAA" id="fechaResultados">
+          </form>
+           <div id="grafica">
+
+           </div> 
           </div>
         </div>
         <a href="/encuesta/home/" class="ym-button">Salir</a>

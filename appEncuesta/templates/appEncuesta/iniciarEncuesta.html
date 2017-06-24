@@ -3,40 +3,29 @@
 {% block content %}
     <div class="ym-wrapper">
       <div class="ym-wbox">
-            <h2>Iniciar Encuesta</h2>
+            <h2>Iniciar Encuesta</h2><p>{{ ip }}</p>
             <br><p>Responda las siguientes preguntas de la manera mas sincera, seleccionando una respuesta para cada pregunta.</p>
             <br>
-            <form action="">
+            <form action="" id="formInciarEncuestaOU">
+            {% csrf_token %}
             	<table>
+              {% for preguntas in preguntas %}
             		<tr>
             			<td>
-            			1. ¿Pregunta1?
-            			<br>
-            				<input type="radio" name="r1" value="Respuesta1">Respuesta1<br>
-  							<input type="radio" name="r1" value="Respuesta2">Respuesta2<br>
-  							<input type="radio" name="r1" value="Respuesta3">Respuesta3
-  						</td>
+              			<label>{{ preguntas.nombrePregunta }}</label>
+                    <input type="hidden" name="pregunta{{forloop.counter}}" value="{{ preguntas.idPregunta }}">
+              			<br>
+                    {% for respuestasOU in respuestasOU %}
+                      {% if preguntas.idPregunta == respuestasOU.idPregunta_id %}
+                		    <input type="radio" name="respuestaPregunta{{ forloop.parentloop.counter }}" value="{{ respuestasOU.idRespuesta }}"> {{respuestasOU.nombreRespuesta}}<br>
+                      {% endif %}
+                    {% endfor %}
             		</tr>
-            		<tr>
-            			<td>
-            			2. ¿Pregunta2?
-            			<br>
-            				<input type="radio" name="r1" value="Respuesta1">Respuesta1<br>
-  							<input type="radio" name="r1" value="Respuesta2">Respuesta2<br>
-  							<input type="radio" name="r1" value="Respuesta3">Respuesta3
-  						</td>
-            		</tr><tr>
-            			<td>
-            			3. ¿Pregunta3?
-            			<br>
-            				<input type="radio" name="r1" value="Respuesta1">Respuesta1<br>
-  							<input type="radio" name="r1" value="Respuesta2">Respuesta2<br>
-  							<input type="radio" name="r1" value="Respuesta3">Respuesta3
-  						</td>
-            		</tr>
+              {% endfor %}
             	</table>
-            	<a href="/encuesta/resultadosEncuesta/" class="ym-button">Terminar</a>
+            	<a href="#" class="ym-button" id="select">Terminar</a>
             </form>
+            <div id="resultadoEncuesta"></div>
       </div>
     </div>
 {% endblock content %}
