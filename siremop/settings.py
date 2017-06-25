@@ -41,11 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'chartit',
     'googlecharts',
     'appEncuesta',
+    'captcha',
 ]
-
+RECAPTCHA_PUBLIC_KEY = 'MyRecaptchaKey123'
+RECAPTCHA_PRIVATE_KEY = 'MyRecaptchaPrivateKey456'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -131,6 +132,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 LOGIN_URL = 'acceso'
 LOGIN_REDIRECT_URL = 'encuesta:administrar'
+LOGOUT_REDIRECT_URL = 'encuesta/home'
 STATICFILES_DIRS = [
     os.path.join (BASE_DIR,"static"),
     ]

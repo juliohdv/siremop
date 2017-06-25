@@ -66,7 +66,10 @@ $(document).ready(function(){
     	$('#opciones').empty();
     	var numOpciones = $('#numOpciones').val();
     	for (var i = 0; i<numOpciones; i++) {
+
      	  $('#opciones').append('Ingrese el valor de la respuesta número: '+(i+1)+'<br><input type="text" name="nombreRespuesta'+i+'"><br>');
+
+     	  $('#opciones').append('Ingrese el valor de la opción '+i+'<br><input type="text" name="nombreRespuesta'+i+'"><br>');
 		}
 		$('#opciones').append('<input type="hidden" name="cantidadRespuestas" value="'+(i)+'"><br>');
 		$('#opciones').append('<button type="submit" id="sbmGuardarRespuestaOM">Guardar</button>');
@@ -79,7 +82,6 @@ $(document).ready(function(){
         var numeroRadios = $('input:radio:checked');
         var numeroCheks = $('input:checkbox:checked');
         strOU=strOU+'&numeroCheks='+numeroCheks.length+'&numeroRadios='+numeroRadios.length;
-        alert(strOU);
         e.preventDefault();
         $.ajax({
             url: "",
@@ -87,6 +89,7 @@ $(document).ready(function(){
             data: strOU,
             success: function(data){
                 $("#resultadoEncuesta").append(data);
+                window.location.replace('http://localhost:8000/encuesta/resultadosEncuesta');
             }
         });
     });
@@ -103,8 +106,8 @@ $( function() {
                 type: "POST",
                 data: 'fechaFiltro='+dateText+'&'+str,
                 success: function(data){
-                    $("#detallesResultados").clear();
-                    $("#detallesResultados").append(data);
+                    $("#detallesResultados").html('');
+                    
                 }
             });
         }

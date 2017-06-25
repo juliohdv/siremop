@@ -708,3 +708,16 @@
   display: none;
 }
 
+.contenido{
+  max-width: 720px;
+  border: 0.5px solid black;
+  border-radius: 5px;
+}
+
+td > p{
+    display:none;
+
+}
+td > p:first-child{
+    display:block;
+}

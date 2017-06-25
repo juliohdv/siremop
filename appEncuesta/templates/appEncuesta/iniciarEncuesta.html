@@ -17,13 +17,34 @@
               			<br>
                     {% for respuestasOU in respuestasOU %}
                       {% if preguntas.idPregunta == respuestasOU.idPregunta_id %}
-                		    <input type="radio" name="respuestaPregunta{{ forloop.parentloop.counter }}" value="{{ respuestasOU.idRespuesta }}"> {{respuestasOU.nombreRespuesta}}<br>
+                		    <input type="radio" name="respuestaPregunta{{ forloop.parentloop.counter }}" value="{{ respuestasOU.idRespuesta }}" checked="checked"> {{respuestasOU.nombreRespuesta}}<br>
+
                       {% endif %}
                     {% endfor %}
             		</tr>
               {% endfor %}
             	</table>
-            	<a href="#" class="ym-button" id="select">Terminar</a>
+              <script type="text/javascript">
+                $(document).ready(function() {
+                  var n1 = Math.round(Math.random() * 10 + 1);
+                  var n2 = Math.round(Math.random() * 10 + 1);
+                  $("#a").val(n1 + " + " + n2);
+                  $("#c").click(function() {
+                      if (eval($("#a").val()) == $("#b").val()) {
+                          alert("Ok!");
+                          $("#c").attr("disabled","disabled");
+                          $("#select").attr("disabled","disabled");
+                      } else {
+                          alert("error");
+                      }
+                  });
+              });
+              </script>
+              <p>CAPTCHA:</p>
+              <br/>¿Cuánto es?: <input class="ym-text" id="a" disabled="disabled"/><br>
+                <br/>Respuesta: <input type="text" id="b"/><br><br>
+              <input type="button" class="ym-button ym-success ym-save" id="c" value="Verificar"/>
+            	<a href="" id="select" class="ym-button">Enviar</a>
             </form>
             <div id="resultadoEncuesta"></div>
       </div>

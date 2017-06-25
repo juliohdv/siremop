@@ -5,6 +5,10 @@ from .forms import PreguntaForm, EditarPreguntaForm, LoginForm
 from chartit import DataPool, Chart
 import itertools
 import functools
+import json
+from .models import Encuesta, Pregunta, Respuesta
+from django.http import HttpResponse, JsonResponse
+from .forms import PreguntaForm, EditarPreguntaForm, LoginForm
 
 
 # Create your views here.
@@ -35,12 +39,17 @@ def iniciarEncuesta(request):
 
 def resultadosEncuesta(request):
 	preguntas = Pregunta.objects.filter(idEncuesta=1).order_by('idPregunta')
-	respuestas = Respuesta.objects.filter()
+	respuestas = Respuesta.objects.filter().order_by('numeroRespuesta')
 	detalles = DetalleEncuesta.objects.filter()
-	
 	if request.method == 'POST':
-		detalles= DetalleEncuesta.objects.filter(fechaDetalle=request.POST['fechaFiltro'])
-	return render(request, 'appEncuesta/resultadosEncuesta.html',{'detalles':detalles,'preguntas' : preguntas, 'respuestas' : respuestas})
+		datos_dict={}
+		datos_records = []
+		for i in range(0,int(request.POST.get('iteraciones',False))):
+			record = {"nombre":request.POST['nombre'+str(i+1)], "conteo":int(request.POST['conteo'+str(i+1)])}
+			datos_records.append(record)
+		datos_dict=datos_records
+		return JsonResponse({'data':datos_records})
+	
 	return render(request, 'appEncuesta/resultadosEncuesta.html',{'detalles':detalles,'preguntas' : preguntas, 'respuestas' : respuestas})
 
 def administrarEncuesta(request):
@@ -51,6 +60,10 @@ def administrarEncuesta(request):
 			Pregunta.objects.create(
 					nombrePregunta = request.POST['nombrePregunta'],
 					numeroPregunta = request.POST['numeroPregunta'],
+					)
+		if request.method == 'POST' and request.POST.get('sbmName', False) == 'sbmGuardarPregunta':
+			Pregunta.objects.create(
+					nombrePregunta = request.POST['nombrePregunta'],
 					idEncuesta = Encuesta.objects.get(idEncuesta=request.POST['idEncuesta'])
 				)
 			return HttpResponse('Pregunta guardada con éxito')
@@ -59,6 +72,7 @@ def administrarEncuesta(request):
 			for i in range(0,int(request.POST.get('cantidadRespuestas',False))):
 				Respuesta.objects.create(
 						numeroRespuesta = i+1,
+						tipoRespuesta = request.POST['tipoRespuesta'],
 						nombreRespuesta = request.POST['nombreRespuesta'+str(i)],
 						idPregunta = preguntaActual
 					)

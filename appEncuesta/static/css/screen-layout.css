@@ -14,17 +14,31 @@
   /* force vertical scrollbar */
   body {
     overflow-y: scroll;
+    background: #efefef;
+    background-color: rgb(239, 239, 239);
+    background-image: none;
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-position-x: 0%;
+    background-position-y: 0%;
+    background-size: auto auto;
   }
 
   /* Layout Module Configuration & fallback for unsupported media queries */
   .ym-wrapper {
-    min-width: 760px;
+    min-width: 960px;
     max-width: 80em;
     margin: 0 auto;
   }
 
   .ym-wbox {
     padding: 10px;
+    margin-top: 10px;
+    max-width: 960px;
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14);
   }
 
   /* Basic Element Styling */

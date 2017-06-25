@@ -2,106 +2,121 @@
 {% load staticfiles %}
 {% load googlecharts %}
 {% block content %}
-    <div class="ym-wrapper">
-      <div class="ym-wbox">
-        <h2>Resultados de las preguntas</h2>
-        <p>Selecciona una pregunta para visualizar su gráfico.</p>
-        <br>
-        <div class="ym-grid">
-          <div class="ym-g60 ym-gl" id="detalles resultados">
-            <table>
-                <tr>
-                  <td>Nombre</td>
-                  <td>N°</td>
-                  <td>Respuestas</td>
-                  <td>Encuesta</td>
-                </tr>
-                {% for preguntas in preguntas %}
-                <form id="formPregunta{{preguntas.numeroPregunta}}">
-                  <tr class="clickable-row" onclick="">
-                    <td>{{ preguntas.nombrePregunta }}</td>
-                    <td>{{ preguntas.numeroPregunta }}</td>
-                    <td>
-                      <table>
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td>Cant.Votos</td>
-                      </tr>
-                      {% for respuesta in respuestas %}
-                        <tr>
-                        {% if preguntas.idPregunta == respuesta.idPregunta_id %}
-                          <td>{{ respuesta.numeroRespuesta }}</td>
-                          <td id="resp{{respuesta.numeroRespuesta}}">{{ respuesta.nombreRespuesta }}</td>
-                          <input type="hidden" name="resp{{respuesta.numeroRespuesta}}" value="{{ respuesta.numeroRespuesta }}">
-                          <input type="hidden" name="nombre{{respuesta.numeroRespuesta}}" value="{{ respuesta.nombreRespuesta }}">
-                          <td>
-                            {% for detalles in detalles %}
-                              {% if detalles.idRespuesta_id == respuesta.idRespuesta %}
-                              <p id="conteo{{respuesta.numeroRespuesta}}">{{detalles.getConteo}}</p>
-                                <input type="hidden" name="conteo{{respuesta.numeroRespuesta}}" value="{{detalles.getConteo}}">
-                              {% endif %}
-                            {% endfor %}
-                          </td>
-                        {% endif %}
-                        </tr>
-                      {% endfor %}
-                      </table>
-                    </td>
-                    <td>{{ preguntas.idEncuesta }}</td>
-                    <td><button id="verGrafica{{preguntas.idPregunta}}">Ver Grafica</button></td>
-                  </tr>
-                  </form>
-                  <script type="text/javascript">
-                    $(document).ready(function(){
-                      $("#verGrafica{{preguntas.idPregunta}}").click(function(){
-                          var datos = $("#formPregunta{{preguntas.numeroPregunta}}").serialize();
-                          alert(datos);
-                          $.ajax({
-                            url: "",
-                            type: "POST",
-                            data: datos,
-                            success: function(data){
+		<div class="ym-wrapper">
+			<div class="ym-wbox">
+				<h2>Resultados de las preguntas</h2>
+				<p>Selecciona una pregunta para visualizar su gráfico.</p>
+				<br>
+				<div class="ym-grid">
+					<div class="ym-g60 ym-gl" id="detalles resultados">
+						<table>
+								<tr>
+									<td>N°</td>
+									<td>Enunciado</td>
+									<td>Respuestas</td>
+									<td>Encuesta</td>
+								</tr>
+								{% for preguntas in preguntas %}
+								<form id="formPregunta{{preguntas.numeroPregunta}}">
+								{% csrf_token %}
+									<tr class="clickable-row" onclick="">
+										<td>{{ preguntas.numeroPregunta }}</td>
+										<td>{{ preguntas.nombrePregunta }}</td>
+										<td>
+											<table>
+											<tr>
+												<td></td>
+												<td></td>
+												<td>Cant.Votos</td>
+											</tr>
+											{% for respuesta in respuestas %}
+												<tr id="detalle{{forloop.counter}}">
+												{% if preguntas.idPregunta == respuesta.idPregunta_id %}
+													<td>{{ respuesta.numeroRespuesta }}</td>
+													<td id="resp{{respuesta.numeroRespuesta}}">{{ respuesta.nombreRespuesta }}</td>
+													<input type="hidden" name="resp{{respuesta.numeroRespuesta}}" value="{{ respuesta.numeroRespuesta }}">
+													<input type="hidden" name="nombre{{respuesta.numeroRespuesta}}" value="{{ respuesta.nombreRespuesta }}">
+													<td>
+														{% for detalles in detalles %}
+															{% if detalles.idRespuesta_id == respuesta.idRespuesta %}
+															<p class="para" id="conteo{{respuesta.numeroRespuesta}}">{{detalles.getConteo}}</p>
+																<input type="hidden" name="conteo{{respuesta.numeroRespuesta}}" value="{{detalles.getConteo}}">
+																<input type="hidden" name="iteraciones" value="{{respuesta.numeroRespuesta}}">
+															{% endif %}
+														{% endfor %}
+													</td>
+												{% endif %}
+												</tr>
+											{% endfor %}
+											</table>
+										</td>
 
-                            }
-                          });
-                         /* $("#grafica").CanvasJSChart({
-                          title: {
-                              text: "Resultados:{{preguntas.nombrePregunta}}"
-                          },
-                          axisX: {
-                              interval: 10
-                          },
-                          data: [
-                              {
-                                  type: "pie", //try changing to column, area
-                                  showInLegend: true,
-                                  toolTipContent: "{name}: <strong>{y}%</strong>",
-                                  indexLabel: "{name} {y}%",
-                                  dataPoints: [
-                                      { y: $("#conteo1").text(), name: "Respuesta 1" },
-                                      { y: $("#conteo").text(), name: "Respuesta 2" },
-                                  ]
-                              }
-                              ]
-                          });*/
-                      });
-                  });
-                  </script>
-                {% endfor %}
-              </table>
-          </div>
-          <div class="ym-g40 ym-gl">
-          <form id="formFecha">
-            {% csrf_token %}
-            <input type="text" value="dd/mm/AAAA" id="fechaResultados">
-          </form>
-           <div id="grafica">
-
-           </div> 
-          </div>
-        </div>
-        <a href="/encuesta/home/" class="ym-button">Salir</a>
-      </div>
-    </div>
+										<td><button id="verGrafica{{preguntas.idPregunta}}" class="ym-button ym-spark ym-xsmall">Grafica</button></td>
+									</tr>
+									</form>
+									<script type="text/javascript">
+										$(document).ready(function(){
+											$("#verGrafica{{preguntas.idPregunta}}").click(function(e){
+												e.preventDefault();
+													var datos = $("#formPregunta{{preguntas.numeroPregunta}}").serialize();
+													var dataPoints = [];
+													$.ajax({
+														url: "",
+														type: "POST",
+														data: datos,
+														success: function(data){
+																	$.each(data, function(i, item){
+																		if(typeof item[1] == "undefined"){
+																				dataPoints.push({indexLabel: item[0].nombre, y: item[0].conteo});
+																		}else if(typeof item[2] == "undefined"){
+																				dataPoints.push({indexLabel: item[0].nombre, y: item[0].conteo});
+																				dataPoints.push({indexLabel: item[1].nombre, y: item[1].conteo});
+																		}else if(typeof item[3] == "undefined"){
+																			dataPoints.push({indexLabel: item[0].nombre, y: item[0].conteo});
+																			dataPoints.push({indexLabel: item[1].nombre, y: item[1].conteo});
+																			dataPoints.push({indexLabel: item[2].nombre, y: item[2].conteo});
+																		}else{
+																			dataPoints.push({indexLabel: item[0].nombre, y: item[0].conteo});
+																			dataPoints.push({indexLabel: item[1].nombre, y: item[1].conteo});
+																			dataPoints.push({indexLabel: item[2].nombre, y: item[2].conteo});
+																			dataPoints.push({indexLabel: item[3].nombre, y: item[3].conteo});
+																		}
+																});
+															$("#grafica").CanvasJSChart({
+															title: {
+																	text: "{{preguntas.nombrePregunta}}"
+															},
+															axisX: {
+																	interval: 10
+															},
+															data: [
+																	{
+																			type: "pie", //try changing to column, area
+																			showInLegend: true,
+																			toolTipContent: "<strong>{y} Votos</strong>",
+																			legendText: "{indexLabel}",
+																			dataPoints: dataPoints
+																	}
+																	]
+															});
+														}
+													});
+											});
+									});
+									</script>
+								{% endfor %}
+							</table>
+					</div>
+					<div class="ym-g40 ym-gl">
+					<form id="formFecha">
+						{% csrf_token %}
+						<input type="text" value="dd/mm/AAAA" id="fechaResultados">
+					</form>
+					 <div id="grafica">
+					 </div> 
+					</div>
+				</div>
+				<a href="/encuesta/home/" class="ym-button">Salir</a>
+			</div>
+		</div>
 {% endblock content %}
