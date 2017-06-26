@@ -78,6 +78,7 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     $("#select").click(function(e){
+        $("#resultados").show();
         var strOU = $('#formInciarEncuestaOU').serialize();
         var numeroRadios = $('input:radio:checked');
         var numeroCheks = $('input:checkbox:checked');
@@ -89,7 +90,6 @@ $(document).ready(function(){
             data: strOU,
             success: function(data){
                 $("#resultadoEncuesta").append(data);
-                window.location.replace('http://localhost:8000/encuesta/resultadosEncuesta');
             }
         });
     });
@@ -113,4 +113,13 @@ $( function() {
         }
     });
 });
+
+
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.9&appId=1832396763679462";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
 

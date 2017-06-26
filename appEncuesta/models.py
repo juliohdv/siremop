@@ -42,6 +42,8 @@ class DetalleEncuesta(models.Model):
 	idPregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE)
 	idRespuesta = models.ForeignKey(Respuesta, on_delete=models.CASCADE)
 	fechaDetalle = models.DateField(auto_now=True)
+	def __str__(self):
+		return '{}'.format(self.fechaDetalle)
 	def get_porcentage(self):
 		cuenta_total = Respuesta.objects.filter(idPregunta=self.idPregunta).count()
 		cuenta = DetalleEncuesta.objects.filter(idRespuesta=self.idRespuesta).count()
@@ -49,10 +51,14 @@ class DetalleEncuesta(models.Model):
 		return porcentaje
 
 	def getConteo(self):
-		cuenta_total = Respuesta.objects.filter(idPregunta=self.idPregunta).count()
 		cuenta = DetalleEncuesta.objects.filter(idRespuesta=self.idRespuesta).count()
 		return cuenta
+class RegistroIP(models.Model):
+	idRegistroIP = models.AutoField(primary_key=True)
+	ip = models.CharField(max_length=25)
+	fechaDetalle = models.DateField(auto_now=True)
 
-	
+	def __str__(self):
+		return '{}'.format(self.ip)
 		
 		

@@ -3,7 +3,7 @@
 {% block content %}
     <div class="ym-wrapper">
       <div class="ym-wbox">
-            <h2>Iniciar Encuesta</h2><p>{{ ip }}</p>
+            <h2>Iniciar Encuesta</h2><p>Su dirección IP: {{ ip }}</p>
             <br><p>Responda las siguientes preguntas de la manera mas sincera, seleccionando una respuesta para cada pregunta.</p>
             <br>
             <form action="" id="formInciarEncuestaOU">
@@ -17,8 +17,7 @@
               			<br>
                     {% for respuestasOU in respuestasOU %}
                       {% if preguntas.idPregunta == respuestasOU.idPregunta_id %}
-                		    <input type="radio" name="respuestaPregunta{{ forloop.parentloop.counter }}" value="{{ respuestasOU.idRespuesta }}" checked="checked"> {{respuestasOU.nombreRespuesta}}<br>
-
+                		    <input type="radio" name="respuestaPregunta{{ forloop.parentloop.counter }}" value="{{ respuestasOU.idRespuesta }}"> {{respuestasOU.nombreRespuesta}}<br>
                       {% endif %}
                     {% endfor %}
             		</tr>
@@ -26,6 +25,8 @@
             	</table>
               <script type="text/javascript">
                 $(document).ready(function() {
+                  $("#select").hide();
+                  $("#resultados").hide();
                   var n1 = Math.round(Math.random() * 10 + 1);
                   var n2 = Math.round(Math.random() * 10 + 1);
                   $("#a").val(n1 + " + " + n2);
@@ -33,7 +34,9 @@
                       if (eval($("#a").val()) == $("#b").val()) {
                           alert("Ok!");
                           $("#c").attr("disabled","disabled");
-                          $("#select").attr("disabled","disabled");
+                          $("#select").show();
+                          $("#resultados").hide()
+
                       } else {
                           alert("error");
                       }
@@ -44,7 +47,8 @@
               <br/>¿Cuánto es?: <input class="ym-text" id="a" disabled="disabled"/><br>
                 <br/>Respuesta: <input type="text" id="b"/><br><br>
               <input type="button" class="ym-button ym-success ym-save" id="c" value="Verificar"/>
-            	<a href="" id="select" class="ym-button">Enviar</a>
+            	<a href="" id="select" class="ym-button">Guardar</a>
+              <a href="/encuesta/resultadosEncuesta/" id="resultados" class="ym-button">Ver Resultados</a>
             </form>
             <div id="resultadoEncuesta"></div>
       </div>

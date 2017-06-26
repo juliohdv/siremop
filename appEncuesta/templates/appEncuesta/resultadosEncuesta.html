@@ -1,11 +1,19 @@
 {% extends 'appEncuesta/base.html' %}
 {% load staticfiles %}
-{% load googlecharts %}
 {% block content %}
+<style type="text/css">
+	td > p{
+    display:none;
+
+}
+td > p:first-child{
+    display:block;
+}
+</style>
 		<div class="ym-wrapper">
 			<div class="ym-wbox">
 				<h2>Resultados de las preguntas</h2>
-				<p>Selecciona una pregunta para visualizar su gráfico.</p>
+				<p>Haga click en el botón para visualizar su gráfico.</p>
 				<br>
 				<div class="ym-grid">
 					<div class="ym-g60 ym-gl" id="detalles resultados">
@@ -14,7 +22,7 @@
 									<td>N°</td>
 									<td>Enunciado</td>
 									<td>Respuestas</td>
-									<td>Encuesta</td>
+									<td></td>
 								</tr>
 								{% for preguntas in preguntas %}
 								<form id="formPregunta{{preguntas.numeroPregunta}}">
@@ -75,14 +83,21 @@
 																			dataPoints.push({indexLabel: item[0].nombre, y: item[0].conteo});
 																			dataPoints.push({indexLabel: item[1].nombre, y: item[1].conteo});
 																			dataPoints.push({indexLabel: item[2].nombre, y: item[2].conteo});
+																		}else if(typeof item[4] == "undefined"){
+																		dataPoints.push({indexLabel: item[0].nombre, y: item[0].conteo});
+																		dataPoints.push({indexLabel: item[1].nombre, y: item[1].conteo});
+																		dataPoints.push({indexLabel: item[2].nombre, y: item[2].conteo});
+																		dataPoints.push({indexLabel: item[3].nombre, y: item[3].conteo});
 																		}else{
 																			dataPoints.push({indexLabel: item[0].nombre, y: item[0].conteo});
 																			dataPoints.push({indexLabel: item[1].nombre, y: item[1].conteo});
 																			dataPoints.push({indexLabel: item[2].nombre, y: item[2].conteo});
 																			dataPoints.push({indexLabel: item[3].nombre, y: item[3].conteo});
+																			dataPoints.push({indexLabel: item[4].nombre, y: item[4].conteo});
 																		}
 																});
 															$("#grafica").CanvasJSChart({
+															animationEnabled: true,
 															title: {
 																	text: "{{preguntas.nombrePregunta}}"
 															},
@@ -110,7 +125,7 @@
 					<div class="ym-g40 ym-gl">
 					<form id="formFecha">
 						{% csrf_token %}
-						<input type="text" value="dd/mm/AAAA" id="fechaResultados">
+						<input type="text" value="" id="fechaResultados">
 					</form>
 					 <div id="grafica">
 					 </div> 

@@ -24,5 +24,5 @@ urlpatterns = [
     url(r'^', include('appEncuesta.urls')),
     url(r'^encuesta/', include('appEncuesta.urls',namespace='encuesta')),
     url(r'^login/$',login, {'template_name':'acceso.html'}, name='acceso'),
-    url(r'^logout/$',logout_then_login, name='salir'),
+
 ]

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Encuesta, Pregunta, Respuesta, DetalleEncuesta
+from .models import Encuesta, Pregunta, Respuesta, DetalleEncuesta, RegistroIP
 from django.http import HttpResponse, JsonResponse
 from .forms import PreguntaForm, EditarPreguntaForm, LoginForm
 from chartit import DataPool, Chart
@@ -26,6 +26,11 @@ def iniciarEncuesta(request):
 		ip = x_forwarded_for.split(',')[0]
 	else:
 		ip = request.META.get('REMOTE_ADDR')
+	ipFiltrada = RegistroIP.objects.filter(ip=ip).count()
+	#if ipFiltrada < 1:
+	#	RegistroIP.objects.create(
+	#			ip=ip
+	#		)
 	preguntas = Pregunta.objects.filter(idEncuesta=1).order_by('idPregunta')
 	respuestasOU = Respuesta.objects.filter()
 	if request.method == 'POST':
@@ -34,8 +39,10 @@ def iniciarEncuesta(request):
 					idPregunta = Pregunta.objects.get(idPregunta=request.POST['pregunta'+str(i+1)]),
 					idRespuesta = Respuesta.objects.get(idRespuesta=request.POST['respuestaPregunta'+str(i+1)])
 				)
-		return HttpResponse('Guardadas respuestas OU')	
+		return HttpResponse("Datos guardados")	
 	return render(request, 'appEncuesta/iniciarEncuesta.html',{'preguntas':preguntas, 'respuestasOU':respuestasOU, 'ip':ip})
+	#mensaje = "La IP ya ha sido registrada anteriormente"
+	#return render(request, 'appEncuesta/iniciarEncuestaNoValido.html',{'ip':ip, 'mensaje': mensaje,})
 
 def resultadosEncuesta(request):
 	preguntas = Pregunta.objects.filter(idEncuesta=1).order_by('idPregunta')

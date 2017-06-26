@@ -11,12 +11,19 @@
        			        <h3>Preferencias de partidos políticos.</h3>
        			        <form id="form1">{% csrf_token %}
        			        	<a href="/encuesta/iniciarEncuesta/" class="ym-button">Iniciar Encuesta</a>
+                      <a href="/encuesta/resultadosEncuesta/" class="ym-button">Ver Resultados</a>
        			        </form>
+                    <br>
+                    <!--FACEBOOK COMPARTIR-->
+                    <h4>¡Comparte la encuesta con tus amigos en Facebook!</h4>
+                    <div id="fb-root"></div>
+
+                    <div class="fb-share-button" data-href="https://127.0.0.1:8000" data-layout="box_count" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F127.0.0.1%3A8000%2F&amp;src=sdkpreparse">Compartir</a></div>
 			        </div>
       			</div>
 			     <div class="ym-g40 ym-gr">
 			        <div class="ym-gbox">
-                  <a href="{% url 'acceso' %}" class="ym-button">Administrador</a>
+                  <a href="/admin" class="ym-button">Administrador</a>
 			        </div>
 			     </div>
    			</div>

@@ -132,7 +132,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 LOGIN_URL = 'acceso'
 LOGIN_REDIRECT_URL = 'encuesta:administrar'
-LOGOUT_REDIRECT_URL = 'encuesta/home'
+LOGIN_REDIRECT_URL = '/home/'
 STATICFILES_DIRS = [
     os.path.join (BASE_DIR,"static"),
     ]
